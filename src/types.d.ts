@@ -6,8 +6,9 @@ export interface Mixed {
 }
 
 export interface GeneratedMixed {
-	areUniform: boolean;
+	initValues: Mixed;
 	r: number[];
+	areUniform: boolean;
 }
 
 export interface Normalize {
