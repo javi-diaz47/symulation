@@ -6,6 +6,6 @@
 	<title>Symulation</title>
 </svelte:head>
 
-<div class="bg-slate-800 h-screen text-white">
+<div class="bg-slate-800 min-h-screen h-fit text-white">
 	<slot />
 </div>

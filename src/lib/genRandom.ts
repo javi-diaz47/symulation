@@ -2,7 +2,7 @@ import { genInitValues } from './genInitValues';
 import { mixed } from './mixedGenerator';
 
 export const genRandom = (m: number) => {
-	let res = mixed(genInitValues(23));
+	let res = mixed(genInitValues(m));
 
 	const MAX_ATTEMPT = 20;
 	let attempt = 0;
