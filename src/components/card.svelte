@@ -5,7 +5,7 @@
 	export let value: number;
 	$: isPrime = PRIMES.includes(Number(value));
 
-	const handleClick = () => {};
+	export let handleClick: () => void;
 </script>
 
 <div class="grid grid-cols-3 text-lg gap-4 max-w-md bg-slate-900 p-6 rounded-2xl">

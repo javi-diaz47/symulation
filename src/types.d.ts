@@ -5,6 +5,14 @@ export interface Mixed {
 	m: number;
 }
 
+export interface MixedSpreadSheets {
+	index: number;
+	x: number;
+	a?: number;
+	c?: number;
+	m?: number;
+}
+
 export interface GeneratedMixed {
 	initValues: Mixed;
 	r: number[];

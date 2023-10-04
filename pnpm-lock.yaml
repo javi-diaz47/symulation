@@ -18,6 +18,10 @@ specifiers:
   tslib: ^2.4.1
   typescript: ^5.0.0
   vite: ^4.4.2
+  xlsx: https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz
+
+dependencies:
+  xlsx: '@cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz'
 
 devDependencies:
   '@sveltejs/adapter-auto': 2.1.0_@sveltejs+kit@1.25.1
@@ -2219,3 +2223,11 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  '@cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz':
+    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz}
+    name: xlsx
+    version: 0.20.0
+    engines: {node: '>=0.8'}
+    hasBin: true
+    dev: false
