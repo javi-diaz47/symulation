@@ -1,10 +1,4 @@
-import type { Distributions, Exponential, Normal, Uniform } from '../types';
-
-export const DISTRIBUTIONS: Distributions[] = [
-	{ name: 'Uniform', gen: () => genUniform },
-	{ name: 'Exponential', gen: () => genExponential },
-	{ name: 'Normal', gen: () => genNormal }
-];
+import type { Exponential, Normal, Uniform } from '../types';
 
 export const genUniform = ({ a, b, r }: Uniform) => {
 	return r.map((n) => a + (b - a) * n);
@@ -24,4 +18,10 @@ export const genNormal = ({ mean, desv, r }: Normal) => {
 		i += 2;
 	}
 	return res;
+};
+
+export const DISTRIBUTIONS = {
+	Uniform: genUniform,
+	Exponential: genExponential,
+	Normal: genNormal
 };
