@@ -2,9 +2,18 @@
 	import Card from '../components/card.svelte';
 </script>
 
-<main class="grid gap-4 p-4">
-	<h1 class="text-4xl font-bold">Welcome to SvelteKit</h1>
-	<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<main class="flex flex-col gap-12 px-8 py-4 text-black">
+	<div class="max-w-3xl w-full">
+		<h1 class="text-7xl font-bold capitalize">
+			Generador de
+			<span
+				class="bg-gradient-to-r from-purple-600 via-rose-500 to-fuchsia-600 bg-clip-text text-transparent"
+			>
+				Variables
+			</span>
+			aleatorias
+		</h1>
+	</div>
 	<!-- <Card bind:value={m} {handleClick} /> -->
 
 	<Card />
@@ -22,3 +31,9 @@
 		</ul>
 	{/if} -->
 </main>
+
+<!-- <style>
+	main {
+		background-image: linear-gradient(-225deg, #b6cee8 0%, #f578dc 100%);
+	}
+</style> -->

@@ -25,7 +25,7 @@ export interface Normalize {
 }
 
 // Distributions
-export type Distribution = 'Uniform' | 'Exponential' | 'Poisson' | 'Normal';
+export type Distribution = 'Uniforme' | 'Exponencial' | 'Poisson' | 'Normal';
 
 interface Distributions {
 	name: Distribution;
@@ -35,16 +35,25 @@ interface Distributions {
 interface Uniform {
 	a: number;
 	b: number;
-	r: number[];
 }
 
 interface Exponential {
 	mean: number;
-	r: number[];
 }
 
 interface Normal {
 	mean: number;
 	desv: number;
+}
+
+interface GenUniform extends Uniform {
+	r: number[];
+}
+
+interface GenExponential extends Exponential {
+	r: number[];
+}
+
+interface GenNormal extends Normal {
 	r: number[];
 }

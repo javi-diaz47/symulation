@@ -1,14 +1,14 @@
-import type { Exponential, Normal, Uniform } from '../types';
+import type { GenExponential, GenNormal, GenUniform } from '../types';
 
-export const genUniform = ({ a, b, r }: Uniform) => {
+export const genUniform = ({ a, b, r }: GenUniform) => {
 	return r.map((n) => a + (b - a) * n);
 };
 
-export const genExponential = ({ mean, r }: Exponential) => {
+export const genExponential = ({ mean, r }: GenExponential) => {
 	return r.map((n) => (n === 0 ? mean : -mean * Math.log(n)));
 };
 
-export const genNormal = ({ mean, desv, r }: Normal) => {
+export const genNormal = ({ mean, desv, r }: GenNormal) => {
 	let i = 1;
 	const res = [];
 	while (i < r.length - 1) {
@@ -21,7 +21,8 @@ export const genNormal = ({ mean, desv, r }: Normal) => {
 };
 
 export const DISTRIBUTIONS = {
-	Uniform: genUniform,
-	Exponential: genExponential,
-	Normal: genNormal
+	Uniforme: genUniform,
+	Exponencial: genExponential,
+	Normal: genNormal,
+	Poisson: () => {}
 };
