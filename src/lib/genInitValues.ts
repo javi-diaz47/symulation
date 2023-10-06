@@ -14,8 +14,6 @@ export const genInitValues = (m: number): Mixed => {
 	const a = randPrime();
 	const c = randPrime();
 
-	console.log({ x, a, c, m });
-
 	return {
 		x,
 		a,

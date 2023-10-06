@@ -10,7 +10,7 @@
 </script>
 
 <label class="grid grid-flow-col grid-cols-3 items-center" class:opacity-50={disabled}>
-	<span class="col-span-1">{label}:</span>
+	<span class="col-span-1 capitalize">{label}:</span>
 	<div class="relative col-span-2">
 		<input
 			{disabled}
@@ -18,13 +18,14 @@
 			list="primes"
 			placeholder="97"
 			type="number"
-			class="group w-full border-b-2 border-b-purple-600 px-4 p-2 text-purple-600 bg-transparent outline-none"
+			class="group w-full appearance-none border-b-2 border-b-purple-600 px-4 p-2 text-purple-600 bg-transparent outline-none"
 			class:border-green-600={isValidInput}
 			class:border-red-400={!isValidInput}
 		/>
+
 		{#if isValidInput}
 			<CheckIcon
-				className="absolute top-1/4 right-2 text-green-500 group:disabled:text-green-100"
+				className="absolute top-1/2 -translate-y-1/2 right-12 text-green-500 group:disabled:text-green-100"
 			/>
 		{/if}
 	</div>
@@ -44,3 +45,15 @@
 			Generar
 		</button> -->
 </label>
+
+<style>
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input[type='number'] {
+		appearance: textfield;
+	}
+</style>

@@ -19,6 +19,12 @@
 		rand.normalizeRandom();
 		if (distribution === 'Uniforme') {
 			rand.generateUniform();
+		} else if (distribution === 'Exponencial') {
+			rand.generateExponential();
+		} else if (distribution === 'Normal') {
+			rand.generateNormal();
+		} else {
+			rand.generatePoisson();
 		}
 		generated = true;
 		console.log($rand);
@@ -65,6 +71,16 @@
 		{#if distribution === 'Uniforme'}
 			<CardInput label="a" bind:value={$rand.distributions.uniform.a} />
 			<CardInput label="b" bind:value={$rand.distributions.uniform.b} />
+		{/if}
+		{#if distribution === 'Exponencial'}
+			<CardInput label="media" bind:value={$rand.distributions.exponential.mean} />
+		{/if}
+		{#if distribution === 'Normal'}
+			<CardInput label="media" bind:value={$rand.distributions.normal.mean} />
+			<CardInput label="Desviacion estandar" bind:value={$rand.distributions.normal.desv} />
+		{/if}
+		{#if distribution === 'Poisson'}
+			<CardInput label="media" bind:value={$rand.distributions.poisson.mean} />
 		{/if}
 	</div>
 

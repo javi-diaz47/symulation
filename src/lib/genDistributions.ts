@@ -1,4 +1,5 @@
-import type { GenExponential, GenNormal, GenUniform } from '../types';
+import type { GenExponential, GenNormal, GenPoisson, GenUniform } from '../types';
+import { FACTORIALS } from './factorials';
 
 export const genUniform = ({ a, b, r }: GenUniform) => {
 	return r.map((n) => a + (b - a) * n);
@@ -17,7 +18,35 @@ export const genNormal = ({ mean, desv, r }: GenNormal) => {
 
 		i += 2;
 	}
+
 	return res;
+};
+
+export const genPoisson = ({ mean, r }: GenPoisson) => {
+	const Fx: number[] = [];
+
+	//media^x * e^(-media) / x!
+
+	let x = 0;
+	let curr = 0;
+
+	while (curr < 0.9) {
+		curr = (mean ** x * Math.exp(-mean)) / FACTORIALS[x];
+
+		x === 0 ? (Fx[x] = curr) : (Fx[x] = Fx[x - 1] + curr);
+
+		if (Fx[x] - Fx[x - 1] <= 0.00001) break;
+
+		x++;
+	}
+
+	r = r.map((n) => {
+		for (const [x, lim] of Fx.entries()) {
+			if (n < lim) return x;
+		}
+		return 0;
+	});
+	return r;
 };
 
 export const DISTRIBUTIONS = {

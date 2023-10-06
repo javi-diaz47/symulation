@@ -41,6 +41,10 @@ interface Exponential {
 	mean: number;
 }
 
+export interface Poisson {
+	mean: number;
+}
+
 interface Normal {
 	mean: number;
 	desv: number;
@@ -51,6 +55,10 @@ interface GenUniform extends Uniform {
 }
 
 interface GenExponential extends Exponential {
+	r: number[];
+}
+
+interface GenPoisson extends Poisson {
 	r: number[];
 }
 
