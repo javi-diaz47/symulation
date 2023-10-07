@@ -9,10 +9,9 @@ interface Props {
 
 export const genRandom = ({ custom = false, init }: Props) => {
 	if (!custom) {
-		console.log('here');
 		return mixed(init);
 	}
-	console.log(init);
+
 	let res = mixed(genInitValues(init.m));
 
 	const MAX_ATTEMPT = 20;

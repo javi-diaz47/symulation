@@ -1,99 +1,60 @@
 <script lang="ts">
-	import { DISTRIBUTIONS } from '$lib/genDistributions';
 	import { PRIMES } from '$lib/primes';
 	import { createRandom } from '../stores/random';
 	import type { Distribution } from '../types';
 	import CardAlert from './CardAlert.svelte';
-	import CardInput from './CardInput.svelte';
-	import CardSelect from './CardSelect.svelte';
+	import CardDistributions from './CardDistributions.svelte';
+	import CardRandomNumbers from './CardRandomNumbers.svelte';
+	import Modal from './Modal.svelte';
 
 	const rand = createRandom();
 
-	let distribution: Distribution = 'Uniforme';
+	let distribution: Distribution = 'uniform';
 	let generated = false;
 
-	$: isPrime = PRIMES.includes(Number($rand.random.initValues.m));
+	$: isPrime = PRIMES.includes($rand.random.initValues.m);
+
+	let auto = true;
 
 	const handleClick = () => {
+		if ($rand.random.initValues.m === 2) alert('Wow, realmente quiers generar 1 numero aleatorio?');
 		rand.generateRandom(auto);
 		rand.normalizeRandom();
-		if (distribution === 'Uniforme') {
+
+		if (distribution === 'uniform') {
 			rand.generateUniform();
-		} else if (distribution === 'Exponencial') {
+		} else if (distribution === 'exponential') {
 			rand.generateExponential();
-		} else if (distribution === 'Normal') {
+		} else if (distribution === 'normal') {
 			rand.generateNormal();
 		} else {
 			rand.generatePoisson();
 		}
+
 		generated = true;
 		console.log($rand);
 	};
-
-	let auto = true;
 </script>
 
-<div
-	class=" flex flex-col text-lg gap-4 max-w-md bg-slate-100 border-[3px] border-purple-600 p-6 rounded-2xl shadow-lg"
->
-	<h2 class="col-span-3 text-3xl font-semibold">Creacion de varible aleatoria</h2>
-
-	<div class="flex flex-col gap-2">
-		<h3 class="col-span-3 text-xl font-semibold">Numeros aleatorios</h3>
-		<label class="flex items-center gap-2 text-purple-600 underline underline-offset-4">
-			<input type="checkbox" bind:checked={auto} class="w-5 h-5 p-2 accent-purple-600" />
-			Generar automaticamente
-		</label>
-		{#if auto}
-			<CardInput
-				bind:value={$rand.random.initValues.m}
-				label="Cantidad de numeros"
-				isValidInput={isPrime}
-				options={PRIMES}
-			/>
-		{:else}
-			<div class="grid grid-cols-2 gap-4">
-				<CardInput label="x" bind:value={$rand.random.initValues.x} />
-				<CardInput label="a" bind:value={$rand.random.initValues.a} />
-				<CardInput label="c" bind:value={$rand.random.initValues.c} />
-				<CardInput label="m" bind:value={$rand.random.initValues.m} isValidInput={isPrime} />
-			</div>
-		{/if}
-	</div>
-
-	<div class="flex flex-col gap-2">
-		<h3 class="col-span-3 text-xl font-semibold">Distribucion de probabilidad</h3>
-		<CardSelect
-			bind:selected={distribution}
-			label="Distribucion"
-			options={Object.keys(DISTRIBUTIONS)}
-		/>
-		{#if distribution === 'Uniforme'}
-			<CardInput label="a" bind:value={$rand.distributions.uniform.a} />
-			<CardInput label="b" bind:value={$rand.distributions.uniform.b} />
-		{/if}
-		{#if distribution === 'Exponencial'}
-			<CardInput label="media" bind:value={$rand.distributions.exponential.mean} />
-		{/if}
-		{#if distribution === 'Normal'}
-			<CardInput label="media" bind:value={$rand.distributions.normal.mean} />
-			<CardInput label="Desviacion estandar" bind:value={$rand.distributions.normal.desv} />
-		{/if}
-		{#if distribution === 'Poisson'}
-			<CardInput label="media" bind:value={$rand.distributions.poisson.mean} />
-		{/if}
-	</div>
-
-	<button
-		disabled={!isPrime}
-		on:click={handleClick}
-		class="flex items-center justify-center gap-2 bg-purple-600 text-white tracking-wider font-semibold rounded-lg p-2.5
-         enabled:active:scale-95 enabled:active:bg-purple-400 duration-150
-				 disabled:opacity-50"
-		class:opacity-50={generated}
-		class:bg-green-400={generated}
+<div class="flex gap-8 flex-col xl:flex-row justify-start items-start margin-0">
+	<div
+		class=" flex flex-col text-lg gap-4 max-w-md bg-slate-100 border-[3px] border-purple-600 p-6 rounded-2xl shadow-lg"
 	>
-		Generar
-	</button>
-	<CardAlert cond={!isPrime} message="Recuerda que solo se aceptan numeros primos" />
+		<h2 class="col-span-3 text-3xl font-semibold">Creacion de varible aleatoria</h2>
+
+		<CardRandomNumbers {rand} bind:auto bind:isPrime />
+
+		<CardDistributions {rand} bind:distribution />
+
+		<button
+			disabled={!isPrime}
+			on:click={handleClick}
+			class="flex items-center justify-center gap-2 bg-purple-600 text-white tracking-wider font-semibold rounded-lg p-2.5
+         active:scale-95 active:bg-purple-400 duration-150"
+		>
+			Generar
+		</button>
+		<CardAlert cond={!isPrime} message="Recuerda que solo se aceptan numeros primos" />
+	</div>
+	<Modal rand={$rand} {distribution} {generated} />
 </div>

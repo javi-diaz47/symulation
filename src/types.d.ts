@@ -5,7 +5,7 @@ export interface Mixed {
 	m: number;
 }
 
-export interface MixedSpreadSheets {
+interface MixedSpreadSheets {
 	index: number;
 	x: number;
 	a?: number;
@@ -13,24 +13,19 @@ export interface MixedSpreadSheets {
 	m?: number;
 }
 
-export interface GeneratedMixed {
+interface GeneratedMixed {
 	initValues: Mixed;
 	r: number[];
 	areUniform: boolean;
 }
 
-export interface Normalize {
+interface Normalize {
 	r: number[];
 	m: number;
 }
 
 // Distributions
-export type Distribution = 'Uniforme' | 'Exponencial' | 'Poisson' | 'Normal';
-
-interface Distributions {
-	name: Distribution;
-	gen: () => void;
-}
+type Distribution = 'uniform' | 'exponential' | 'poisson' | 'normal';
 
 interface Uniform {
 	a: number;
@@ -43,6 +38,7 @@ interface Exponential {
 
 export interface Poisson {
 	mean: number;
+	Fx?: number[];
 }
 
 interface Normal {
@@ -64,4 +60,19 @@ interface GenPoisson extends Poisson {
 
 interface GenNormal extends Normal {
 	r: number[];
+}
+
+// Store genRandom
+interface RandomDistributions {
+	uniform: Uniform;
+	exponential: Exponential;
+	normal: Normal;
+	poisson: Poisson;
+	r: number[];
+}
+
+interface Random {
+	random: GeneratedMixed;
+	normalize: number[];
+	distributions: RandomDistributions;
 }
