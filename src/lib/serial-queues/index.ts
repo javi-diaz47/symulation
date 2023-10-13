@@ -127,3 +127,25 @@ export const serviceStation = ({ arrived, service }: Queue) => {
 	console.log(history);
 	return history;
 };
+
+export const getArrivedFromClients = (history: Client[]) => {
+	let t = 0;
+	const tEnd = history[history.length - 1].end ?? 0;
+
+	const arrived: number[] = [];
+
+	let currClient = history.shift();
+
+	while (t < tEnd) {
+		t++;
+		if (t === currClient?.end) {
+			arrived.push(1);
+			currClient = history.shift();
+			continue;
+		}
+
+		arrived.push(0);
+	}
+
+	return arrived;
+};

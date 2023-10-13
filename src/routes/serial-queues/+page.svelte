@@ -1,9 +1,15 @@
 <script lang="ts">
-	import { EXAMPLE, serviceStation } from '$lib/serial-queues';
+	import { EXAMPLE, getArrivedFromClients, serviceStation } from '$lib/serial-queues';
 
 	// import { EXAMPLE, serialQueues } from '$lib/serial-queues';
 
-	serviceStation(EXAMPLE);
+	const serv1 = serviceStation(EXAMPLE);
+
+	console.log(serv1);
+
+	const arrived_serv2 = getArrivedFromClients(serv1);
+
+	console.log(arrived_serv2);
 	// let t = serialQueues(EXAMPLE);
 
 	// const a = {
