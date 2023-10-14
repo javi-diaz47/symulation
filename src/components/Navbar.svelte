@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 </script>
 
-<nav class="text-black flex gap-8 text-lg">
+<nav class="text-black flex gap-8 text-2xl my-4">
 	<a
 		href="/"
 		aria-current={$page.url.pathname === '/'}

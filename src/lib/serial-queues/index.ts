@@ -1,9 +1,4 @@
-import type { SerialQueues, UserInputSerialQueue } from '../../types';
-
-export interface Queue {
-	arrived: number[];
-	service: number[];
-}
+import type { Client, Queue, SerialQueues, UserInputSerialQueue } from '../../types';
 
 export const EXAMPLE: Queue = {
 	// arrived: [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1],
@@ -13,15 +8,6 @@ export const EXAMPLE: Queue = {
 		0.56534, 2.50051, 0.24564, 0
 	]
 };
-
-export interface Client {
-	// id: numbe
-	arrvTime: number;
-	start?: number;
-	end?: number;
-	duration?: number;
-	state: 'waiting' | 'attending' | 'done';
-}
 
 export const serviceStation = ({ arrived, service }: Queue) => {
 	console.log(arrived);

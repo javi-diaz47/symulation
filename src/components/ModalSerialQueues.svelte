@@ -9,7 +9,7 @@
 </script>
 
 <div
-	class="bg-slate-50 w-full max-w-3xl p-4 rounded-lg h-[537px] overflow-scroll shadow-xl flex flex-col gap-4"
+	class="bg-slate-50 w-full p-4 rounded-lg h-[537px] overflow-scroll shadow-xl flex flex-col gap-4"
 >
 	{#if serialQueues}
 		<h2 class="text-4xl text-center font-bold">Datos</h2>
@@ -19,7 +19,9 @@
 					<th> Minutos </th>
 					<th> Llegada </th>
 					{#each serialQueues as _, i}
+						<th>tiem. en cola {i + 1}</th>
 						<th>Estacion {i + 1}</th>
+						<th>tiem. total {i + 1}</th>
 					{/each}
 				</tr>
 			</thead>
@@ -34,10 +36,22 @@
 								{serialQueues[0].arrived[i] ?? '0'}
 							</td>
 							{#each serialQueues as serial}
+								{@const client = serial.clients.filter((c) => c.end === i)[0]}
+								{@const time = serial.service[0] ?? 0}
+								{#if client && client.start && client.duration}
+									<td> {client.start - client.arrvTime}</td>
+								{:else}
+									<td />
+								{/if}
 								<td>
 									{serial.clients.filter((c) => c.start === i)[0] && !serial.ended[i] ? '*' : ''}
 									{serial.ended[i] ? serial.service.shift() : ''}
 								</td>
+								{#if client && client.start && client.duration}
+									<td> {(client.start - client.arrvTime + time).toFixed(5)}</td>
+								{:else}
+									<td />
+								{/if}
 							{/each}
 						</tr>
 					{/each}

@@ -24,7 +24,7 @@
 	};
 </script>
 
-<main class="self-center xl:w-3/4 max-w-fit flex flex-col gap-12 px-8 py-4 text-black">
+<main class="self-center xl:w-3/4 w-11/12 flex flex-col gap-12 px-8 py-4 text-black">
 	<div class="mt-8">
 		<h1 class=" text-7xl font-bold capitalize">
 			Simulador de Colas en
@@ -36,9 +36,12 @@
 		</h1>
 	</div>
 
-	<div class=" flex gap-8 flex-col xl:flex-row justify-start items-start margin-0">
-		<CardSerialQueues {input} {userInput} {handleGenerate} />
-
-		<ModalSerialQueues {serialQueues} />
+	<div class=" flex gap-8 flex-col xl:flex-row items-start">
+		<div class="min-w-fit">
+			<CardSerialQueues {input} {userInput} {handleGenerate} />
+		</div>
+		<div class="w-full">
+			<ModalSerialQueues {serialQueues} />
+		</div>
 	</div>
 </main>

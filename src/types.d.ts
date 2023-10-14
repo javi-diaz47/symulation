@@ -1,5 +1,3 @@
-import type { Queue } from '$lib/serial-queues';
-
 export interface Mixed {
 	x: number;
 	a: number;
@@ -88,6 +86,19 @@ export interface InputSerialQueue {
 export interface UserInputSerialQueue {
 	arrivals: string;
 	services: string[];
+}
+
+export interface Client {
+	arrvTime: number;
+	start?: number;
+	end?: number;
+	duration?: number;
+	state: 'waiting' | 'attending' | 'done';
+}
+
+export interface Queue {
+	arrived: number[];
+	service: number[];
 }
 
 export interface SerialQueues extends Queue {
