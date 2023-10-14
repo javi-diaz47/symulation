@@ -49,7 +49,7 @@
 		<button
 			disabled={!isPrime}
 			on:click={handleClick}
-			class="flex items-center justify-center gap-2 bg-purple-600 text-white tracking-wider font-semibold rounded-lg p-2.5
+			class="mt-2 text-2xl flex items-center justify-center gap-2 bg-purple-600 text-white tracking-wider font-semibold rounded-lg p-2.5
          active:scale-95 active:bg-purple-400 duration-150"
 		>
 			Generar

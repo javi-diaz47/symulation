@@ -17,9 +17,3 @@
 
 	<Card />
 </main>
-
-<!-- <style>
-	main {
-		background-image: linear-gradient(-225deg, #b6cee8 0%, #f578dc 100%);
-	}
-</style> -->

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { EXAMPLE, getArrivedFromClients, serviceStation } from '$lib/serial-queues';
+	import CardInput from '../../components/CardInput.svelte';
+	import Input from '../../components/Input.svelte';
 
 	// import { EXAMPLE, serialQueues } from '$lib/serial-queues';
 
@@ -10,51 +12,88 @@
 	const arrived_serv2 = getArrivedFromClients(serv1);
 
 	console.log(arrived_serv2);
-	// let t = serialQueues(EXAMPLE);
 
-	// const a = {
-	// 	arrived: `0 0 0 0 1 1 0 0 0 0 1 0 1 1 0 0 1 1 0 0 1 0 1 0 0 0 0 1 0 0 0 0 0 2 2 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 1 0 1 1 0 0 0 1 1 0 1`,
-	// 	services: [
-	// 		`4.07042 1.74893 2.57194 0.31501 1.06226 0.47412 1.87319 3.20885 0.92998 0.18962 0.56534 2.50051 0.24564 0.77606 5.61680 3.15947 0.88255 0.09256 0.23431 0.73210 4.49756 2.14759 5.98144 3.47591 1.18565 0.76130 5.17051 2.76256 0.49976 2.03328 4.40452 2.06125 4.69773 2.33234 0.08206 0.20070 0.60574 2.84421 0.57872 2.60864 0.35062 1.22235 0.85154 0.03038 0.04061 0.07162 0.16764 0.48690 1.95163 3.71864 1.41667 1.37627 1.25973 0.94605 0.22304 0.68909 3.78421 1.47886 1.56489 1.84771 3.06421`,
-	// 		`1.19095 1.59799 1.81910 1.48241 1.47236 1.44221 1.35176 1.08040 1.26633 1.82412 1.49749 1.51759 1.57789 1.75879 1.30151 1.92965 1.81407 1.46734 1.42714 1.30653 1.94472 1.85930 1.60302 1.83417 1.52764 1.60804 1.84925 1.57286 1.74372 1.25628 1.79397 1.40704 1.24623 1.76382 1.31658 1.97487 1.94975 1.87437 1.64824 1.96985 1.93467 1.82915 1.51256 1.56281 1.71357 1.16583 1.52261 1.59296 1.80402 1.43719 1.33668 1.03518 1.13065 1.41709 1.27638 1.85427 1.58794 1.78894 1.39196 1.20101 1.62814`
-	// 	]
-	// };
+	interface Input {
+		arrivals: number[];
+		services: number[][];
+	}
 
-	// $: prom = t.reduce((a, b) => a + b, 0) / t.length;
+	let input: Input = {
+		arrivals: [],
+		services: [[]]
+	};
 
-	// let arr: string;
-	// let serv1: string;
-	// let serv2: string;
+	let userInput = {
+		arrivals: '',
+		services: ['']
+	};
 
-	// const handleSubmit = () => {
-	// 	console.log(a.arrived.split(' '));
-	// 	t = serialQueues({
-	// 		arrived: a.arrived.split(' ').map((s) => Number(s)),
-	// 		services: [
-	// 			a.services[0].split(' ').map((s) => Number(s)),
-	// 			a.services[1].split(' ').map((s) => Number(s))
-	// 		],
-	// 		maxTime: 10
-	// 	});
-	// 	console.log(t);
-	// };
+	const addService = () => {
+		input.services = [...input.services, []];
+	};
+
+	const removeService = () => {
+		input.services = input.services.slice(0, input.services.length - 1);
+		userInput.services.pop();
+	};
 </script>
 
-<h2>hi</h2>
+<main class="self-center xl:w-3/4 max-w-fit flex flex-col gap-12 px-8 py-4 text-black">
+	<div class="mt-8">
+		<h1 class=" text-7xl font-bold capitalize">
+			Simulador de Colas en
+			<span
+				class="bg-gradient-to-r from-purple-600 via-pink-500 to-fuchsia-600 bg-clip-text text-transparent"
+			>
+				Serie ✦✱
+			</span>
+		</h1>
+	</div>
 
-<!-- <label>
-	<span>Llegada</span>
-	<input bind:value={arr} />
-</label>
-<label>
-	<span>Servidor 1</span>
-	<input bind:value={serv1} />
-</label>
-<label>
-	<span>Servidor 2</span>
-	<input bind:value={serv2} />
-</label>
+	<div class=" flex gap-8 flex-col xl:flex-row justify-start items-start margin-0">
+		<div
+			class="w-full max-w-sm flex flex-col text-lg gap-4 bg-slate-100 border-[3px] border-pink-600 p-6 rounded-2xl shadow-lg"
+		>
+			<h2 class=" text-3xl font-semibold">Simulacion de colas en serie</h2>
+			<Input label="llegada" bind:value={userInput.arrivals} />
+			<Input label="Servidor 1" bind:value={userInput.services[0]} />
 
-<button on:click={handleSubmit}> Generar </button> -->
+			{#each input.services.slice(1) as _, i (`service-${i}`)}
+				<Input label={`Servidor ${i + 2}`} bind:value={userInput.services[i + 1]} />
+			{/each}
 
-<!-- <h2>Promedio por usuarios: {prom}</h2> -->
+			<div class="text-black mt-8 w-full flex justify-stretch gap-8">
+				<button
+					on:click={addService}
+					class="w-full flex items-center justify-center gap-2 border-[3px] border-green-600 bg-slate-50 text-green-600 tracking-wider font-semibold rounded-lg p-2.5
+         active:scale-95 active:bg-green-600 active:text-white duration-150"
+				>
+					+ servidor
+				</button>
+
+				<!-- {#if input.services.length > 1} -->
+				<button
+					disabled={input.services.length === 1}
+					class:opacity-0={input.services.length === 1}
+					on:click={removeService}
+					class="w-full flex items-center justify-center gap-2 bg-slate-50 border-[3px] border-red-600 text-red-600 tracking-wider font-semibold rounded-lg p-2.5
+         active:scale-95 active:bg-red-600 active:text-white duration-150"
+				>
+					- servidor
+				</button>
+				<!-- {/if} -->
+			</div>
+
+			<button
+				on:click={() => console.log(input.services)}
+				class="mt-2 flex items-center justify-center gap-2 bg-pink-600 text-white tracking-wider font-semibold text-2xl rounded-lg p-2.5
+         active:scale-95 active:bg-pink-400 duration-150"
+			>
+				Generar
+			</button>
+		</div>
+		<div
+			class="bg-slate-50 w-full max-w-3xl p-4 rounded-lg h-[537px] overflow-scroll shadow-xl flex flex-col gap-4"
+		/>
+	</div>
+</main>
