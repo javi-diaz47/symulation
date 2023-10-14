@@ -1,40 +1,49 @@
 <script lang="ts">
-	import { EXAMPLE, getArrivedFromClients, serviceStation } from '$lib/serial-queues';
-	import CardInput from '../../components/CardInput.svelte';
+	import {
+		EXAMPLE,
+		getArrivedFromClients,
+		serviceStation,
+		type Queue,
+		simulateSerialQueue
+	} from '$lib/serial-queues';
 	import Input from '../../components/Input.svelte';
+	import type { InputSerialQueue, UserInputSerialQueue } from '../../types';
 
 	// import { EXAMPLE, serialQueues } from '$lib/serial-queues';
 
-	const serv1 = serviceStation(EXAMPLE);
+	// const serv1 = serviceStation(EXAMPLE);
 
-	console.log(serv1);
+	// console.log(serv1);
 
-	const arrived_serv2 = getArrivedFromClients(serv1);
+	// const arrived_serv2 = getArrivedFromClients(serv1);
 
-	console.log(arrived_serv2);
+	// console.log(arrived_serv2);
 
-	interface Input {
-		arrivals: number[];
-		services: number[][];
-	}
-
-	let input: Input = {
+	let input: InputSerialQueue = {
 		arrivals: [],
 		services: [[]]
 	};
 
-	let userInput = {
-		arrivals: '',
-		services: ['']
+	let userInput: UserInputSerialQueue = {
+		arrivals: '0 0 0 0 1 1 0 0 0 0 1 0 1 1',
+		services: [
+			'4.0704 1.7489 2.5719 0.3150 1.0623 0.4741 1.8732 3.2089 0.9300 0.1896 0.5653 2.5005 0.2456',
+			'1.1910 1.5980 1.8191 1.4824 1.4724 1.4422 1.3518 1.0804 1.2663 1.8241 1.4975 1.5176 1.5779'
+		]
 	};
 
 	const addService = () => {
 		input.services = [...input.services, []];
+		userInput.services = [...userInput.services, ''];
 	};
 
 	const removeService = () => {
 		input.services = input.services.slice(0, input.services.length - 1);
-		userInput.services.pop();
+		userInput.services = userInput.services.slice(0, userInput.services.length - 1);
+	};
+
+	const handleGenerate = () => {
+		simulateSerialQueue(userInput);
 	};
 </script>
 
@@ -58,7 +67,7 @@
 			<Input label="llegada" bind:value={userInput.arrivals} />
 			<Input label="Servidor 1" bind:value={userInput.services[0]} />
 
-			{#each input.services.slice(1) as _, i (`service-${i}`)}
+			{#each userInput.services.slice(1) as _, i (`service-${i + 1}`)}
 				<Input label={`Servidor ${i + 2}`} bind:value={userInput.services[i + 1]} />
 			{/each}
 
@@ -71,21 +80,19 @@
 					+ servidor
 				</button>
 
-				<!-- {#if input.services.length > 1} -->
 				<button
-					disabled={input.services.length === 1}
-					class:opacity-0={input.services.length === 1}
+					disabled={userInput.services.length === 1}
+					class:opacity-0={userInput.services.length === 1}
 					on:click={removeService}
 					class="w-full flex items-center justify-center gap-2 bg-slate-50 border-[3px] border-red-600 text-red-600 tracking-wider font-semibold rounded-lg p-2.5
          active:scale-95 active:bg-red-600 active:text-white duration-150"
 				>
 					- servidor
 				</button>
-				<!-- {/if} -->
 			</div>
 
 			<button
-				on:click={() => console.log(input.services)}
+				on:click={handleGenerate}
 				class="mt-2 flex items-center justify-center gap-2 bg-pink-600 text-white tracking-wider font-semibold text-2xl rounded-lg p-2.5
          active:scale-95 active:bg-pink-400 duration-150"
 			>

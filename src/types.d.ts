@@ -76,3 +76,14 @@ interface Random {
 	normalize: number[];
 	distributions: RandomDistributions;
 }
+
+// Serial queues
+export interface InputSerialQueue {
+	arrivals: number[];
+	services: number[][];
+}
+
+export interface UserInputSerialQueue {
+	arrivals: string;
+	services: string[];
+}

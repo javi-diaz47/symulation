@@ -1,3 +1,5 @@
+import type { UserInputSerialQueue } from '../../types';
+
 export interface Queue {
 	arrived: number[];
 	service: number[];
@@ -132,7 +134,7 @@ export const getArrivedFromClients = (history: Client[]) => {
 	let t = 0;
 	const tEnd = history[history.length - 1].end ?? 0;
 
-	const arrived: number[] = [];
+	const arrived: number[] = [0];
 
 	let currClient = history.shift();
 
@@ -148,4 +150,44 @@ export const getArrivedFromClients = (history: Client[]) => {
 	}
 
 	return arrived;
+};
+export const getArrayFromString = (str: string, pattern: string = ' ') =>
+	str.split(pattern).map((a) => Number(a));
+
+interface SerialQueues extends Queue {
+	ended: number[];
+	clients: Client[];
+}
+
+export const simulateSerialQueue = (serial: UserInputSerialQueue) => {
+	let arrivals = getArrayFromString(serial.arrivals);
+
+	const serialQueues: SerialQueues[] | undefined = serial.services.map((serviceTime) => {
+		console.log(getArrayFromString(serviceTime));
+
+		const service = getArrayFromString(serviceTime);
+
+		const queue: Queue = {
+			arrived: arrivals,
+			service: [...service]
+		};
+
+		const clients: Client[] = serviceStation({ ...queue });
+
+		const ended = getArrivedFromClients([...clients]);
+
+		const newSerialQueue: SerialQueues = {
+			clients,
+			arrived: arrivals,
+			service,
+			ended
+		};
+
+		arrivals = ended;
+
+		return newSerialQueue;
+	});
+
+	console.log(serialQueues);
+	return serialQueues;
 };
