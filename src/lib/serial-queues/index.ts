@@ -1,4 +1,4 @@
-import type { UserInputSerialQueue } from '../../types';
+import type { SerialQueues, UserInputSerialQueue } from '../../types';
 
 export interface Queue {
 	arrived: number[];
@@ -13,21 +13,6 @@ export const EXAMPLE: Queue = {
 		0.56534, 2.50051, 0.24564, 0
 	]
 };
-
-// export const EXAMPLE: SerialQueuesInput = {
-// 	arrived: [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1],
-// 	maxTime: 13,
-// 	services: [
-// 		[
-// 			4.07042, 1.74893, 2.57194, 0.31501, 1.06226, 0.47412, 1.87319, 3.20885, 0.92998, 0.18962,
-// 			0.56534, 2.50051, 0.24564, 0
-// 		],
-// 		[
-// 			1.19095, 1.59799, 1.8191, 1.48241, 1.47236, 1.44221, 1.35176, 1.0804, 1.26633, 1.82412,
-// 			1.49749, 1.51759, 1.57789, 0
-// 		]
-// 	]
-// };
 
 export interface Client {
 	// id: numbe
@@ -153,11 +138,6 @@ export const getArrivedFromClients = (history: Client[]) => {
 };
 export const getArrayFromString = (str: string, pattern: string = ' ') =>
 	str.split(pattern).map((a) => Number(a));
-
-interface SerialQueues extends Queue {
-	ended: number[];
-	clients: Client[];
-}
 
 export const simulateSerialQueue = (serial: UserInputSerialQueue) => {
 	let arrivals = getArrayFromString(serial.arrivals);
