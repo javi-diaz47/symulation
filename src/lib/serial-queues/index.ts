@@ -24,6 +24,7 @@ export interface Client {
 }
 
 export const serviceStation = ({ arrived, service }: Queue) => {
+	console.log(arrived);
 	let station: number = 0;
 
 	const isBusy = (station: number) => station > 0;
@@ -35,6 +36,13 @@ export const serviceStation = ({ arrived, service }: Queue) => {
 	const history: Client[] = [];
 
 	let t: number = -1;
+
+	const addToQueue = (n: number) => {
+		// Add to queue
+		const newClient: Client = { arrvTime: t + 1, state: 'waiting' };
+		const newClients: Client[] = Array(n).fill(newClient);
+		queue.push(...newClients);
+	};
 
 	while (t <= arrived.length || queue.length || isBusy(station)) {
 		t++;
@@ -59,8 +67,9 @@ export const serviceStation = ({ arrived, service }: Queue) => {
 
 		// Llego y Esta ocupada
 		if (arrived[t] && isBusy(station)) {
-			const newClient: Client = { arrvTime: t + 1, state: 'waiting' };
-			queue.push(newClient);
+			// Add to queue
+			addToQueue(arrived[t]);
+
 			continue;
 		}
 
@@ -71,7 +80,12 @@ export const serviceStation = ({ arrived, service }: Queue) => {
 			if (station < 1) station = 1; // min is 1 minute
 
 			const next: Client = { arrvTime: t + 1, start: t + 1, state: 'attending', duration: station };
+
 			stationClient.push(next);
+
+			if (arrived[t] > 1) {
+				addToQueue(arrived[t] - 1);
+			}
 
 			continue;
 		}
@@ -89,8 +103,7 @@ export const serviceStation = ({ arrived, service }: Queue) => {
 			}
 
 			// Add to queue
-			const newClient: Client = { arrvTime: t + 1, state: 'waiting' };
-			queue.push(newClient);
+			addToQueue(arrived[t]);
 
 			continue;
 		}
@@ -136,6 +149,7 @@ export const getArrivedFromClients = (history: Client[]) => {
 
 	return arrived;
 };
+
 export const getArrayFromString = (str: string, pattern: string = ' ') =>
 	str.split(pattern).map((a) => Number(a));
 
