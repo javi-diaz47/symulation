@@ -11,9 +11,9 @@ export const genExponential = ({ mean, r }: GenExponential) => {
 };
 
 export const genNormal = ({ mean, desv, r }: GenNormal) => {
-	let i = 1;
+	let i = 2;
 	const res = [];
-	while (i < r.length - 1) {
+	while (i < r.length) {
 		res[i - 1] =
 			mean + desv * (r[i - 1] === 0 ? mean : Math.sqrt(-2 * Math.log(r[i - 1]))) * Math.cos(r[i]);
 		res[i] =
