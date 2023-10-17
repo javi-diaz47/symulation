@@ -36,7 +36,7 @@
 								{serialQueues[0].arrived[i] ?? '0'}
 							</td>
 							{#each serialQueues as serial}
-								{@const client = serial.clients.filter((c) => c.end === i)[0]}
+								{@const client = serial.clients.filter((c) => c.end === i + 1)[0]}
 								{@const time = serial.service[0] ?? 0}
 								{#if client && client.start && client.duration}
 									<td> {client.start - client.arrvTime}</td>
@@ -44,8 +44,10 @@
 									<td />
 								{/if}
 								<td>
-									{serial.clients.filter((c) => c.start === i)[0] && !serial.ended[i] ? '*' : ''}
-									{serial.ended[i] ? serial.service.shift() : ''}
+									{serial.clients.filter((c) => c.start === i + 1)[0] && !serial.ended[i + 1]
+										? '*'
+										: ''}
+									{serial.ended[i + 1] ? serial.service.shift() : ''}
 								</td>
 								{#if client && client.start && client.duration}
 									<td> {(client.start - client.arrvTime + time).toFixed(5)}</td>
